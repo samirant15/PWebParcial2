@@ -1,5 +1,7 @@
 package edu.pucmm.web;
 
+import edu.pucmm.web.Servicios.UsuarioServicio;
+import edu.pucmm.web.modelos.Usuario;
 import spark.ModelAndView;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
@@ -18,6 +20,14 @@ public class Main {
 
     public static void main(String[] args) {
         staticFiles.location("/public");
+
+        if(UsuarioServicio.getInstancia().find("samirant15") == null){
+            Usuario user = new Usuario();
+            user.setNombre("Samir Comprés");
+            user.setUsuario("samirant15");
+            user.setContrasena("123123");
+            UsuarioServicio.getInstancia().crear(user);
+        }
 
         get("/", (request, response) -> {
             return renderThymeleaf(modelo, "/login");
