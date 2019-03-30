@@ -19,4 +19,6 @@ dependencies {
     compile "com.sparkjava:spark-core:2.7.2"
     compile "com.sparkjava:spark-template-thymeleaf:2.7.1"
     compile group: 'com.h2database', name: 'h2', version: '1.4.194'
+    compile group: 'org.jasypt', name: 'jasypt', version: '1.9.2'
+    compile group: 'com.maxmind.geoip2', name: 'geoip2', version: '2.12.0'
 }

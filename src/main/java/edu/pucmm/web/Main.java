@@ -1,17 +1,25 @@
 package edu.pucmm.web;
 
+import com.maxmind.geoip2.DatabaseReader;
+import com.maxmind.geoip2.model.CityResponse;
+import com.maxmind.geoip2.record.Location;
+import edu.pucmm.web.Servicios.LocationServicio;
 import edu.pucmm.web.Servicios.UsuarioServicio;
+import edu.pucmm.web.modelos.Formulario;
 import edu.pucmm.web.modelos.Usuario;
 import spark.ModelAndView;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Map;
 
-import static spark.Spark.get;
-import static spark.Spark.staticFiles;
+import static spark.Spark.*;
 
 public class Main {
+
     static Map<String, Object> modelo = new HashMap<>();
 
     public static String renderThymeleaf(Map<String, Object> model, String templatePath) {
@@ -30,7 +38,27 @@ public class Main {
         }
 
         get("/", (request, response) -> {
-            return renderThymeleaf(modelo, "/login");
+            return renderThymeleaf(modelo, "/index");
+        });
+
+        get("/encuesta", (request, response) -> {
+//            response.redirect("encuesta.html"); return null;
+            return renderThymeleaf(modelo, "/encuesta");
+        });
+
+        post("/encuesta", (request, response) -> {
+//            response.redirect("encuesta.html"); return null;
+            Formulario form = new Formulario();
+            form.setNombre(request.queryParams("nombre"));
+            form.setSector(request.queryParams("sector"));
+            form.setNivel_escolar(request.queryParams("nivel_escolar"));
+            InetAddress ipAddress = InetAddress.getByName(request.queryParams("ip"));
+            Location location = LocationServicio.getInstancia().locationReader.city(ipAddress).getLocation();
+            form.setLatitud(location.getLatitude());
+            form.setLongitud(location.getLongitude());
+
+            response.redirect("/");
+            return "";
         });
     }
 }

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Parcial 2</title>
+    <link rel="stylesheet" href="/css/main.css" />
+</head>
+<body class="is-preload homepage">
+<div id="page-wrapper">
+    <!-- Header -->
+    <div id="header-wrapper">
+        <header id="header" class="container">
+
+            <!-- Logo -->
+            <div id="logo">
+                <h1><a href="index.html">Parcial 2</a></h1>
+                <span>por Samir Comprés</span>
+            </div>
+
+            <!-- Nav -->
+            <nav id="nav">
+                <ul>
+                    <li class="current"><a href="index.html">LOG IN</a></li>
+                </ul>
+            </nav>
+
+        </header>
+    </div>
+
+    <!-- Banner -->
+    <div id="banner-wrapper">
+        <div id="banner" class="box container">
+            <div class="content">
+                <p><strong>ENCUESTA:</strong> Introduzca los datos siguientes, sin dejar campos vacíos.</p>
+                <form action="/encuesta" method="post">
+                    <input type="text" style="display: none" name = "ip" id = "ip"/>
+                    <div class="fields" style="margin-top: 5%;">
+                        <div class="field half" style="margin-bottom: 1%">
+                            <input type="text" name="nombre" id="nombre" placeholder="Nombre">
+                        </div>
+                        <div class="field half" style="margin-bottom: 1%">
+                            <input type="text" name="sector" id="sector" placeholder="Sector">
+                        </div>
+                        <div class="field half" style="margin-bottom: 1%">
+                            <select name="nivel_escolar">
+                                <option value="none">Nivel Escolar</option>
+                                <option value="Básico">Básico</option>
+                                <option value="Medio">Medio</option>
+                                <option value="Universitario">Grado Universitario</option>
+                                <option value="Postgrado">Postgrado</option>
+                                <option value="Doctorado">Doctorado</option>
+                            </select>
+                        </div>
+                    </div>
+                    <input type="submit" value="ENVIAR" class="button primary" style="margin-top: 5%;">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div id="footer-wrapper" style="padding: 0">
+        <footer id="footer" class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div id="copyright">
+                        <ul class="menu">
+                            <li>&copy; Parcial 2. Programación Web</li><li><a href="https://github.com/samirant15/PWebParcial2">Samir Comprés</a> 2015-0798</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+</div>
+
+<!-- Scripts -->
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/jquery.dropotron.min.js"></script>
+<script src="/js/browser.min.js"></script>
+<script src="/js/breakpoints.min.js"></script>
+<script src="/js/util.js"></script>
+<script src="/js/main.js"></script>
+<script>
+    $(document).ready (function () {
+        $.get("https://api.ipify.org?format=json",
+            function (data) {
+                console.log(data)
+                $("#ip").val(data.ip);
+            });
+    });
+</script>
+</body>
+</html>
