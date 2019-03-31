@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Parcial 2</title>
-    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="public/css/main.css" />
 </head>
 <body class="is-preload homepage">
 <div id="page-wrapper">
@@ -32,7 +32,7 @@
         <div id="banner" class="box container">
             <div class="content">
                 <p><strong>ENCUESTA:</strong> Introduzca los datos siguientes, sin dejar campos vacíos.</p>
-                <form action="/encuesta" method="post">
+                <form>
                     <input type="text" style="display: none" name = "ip" id = "ip"/>
                     <div class="fields" style="margin-top: 5%;">
                         <div class="field half" style="margin-bottom: 1%">
@@ -42,7 +42,7 @@
                             <input type="text" name="sector" id="sector" placeholder="Sector">
                         </div>
                         <div class="field half" style="margin-bottom: 1%">
-                            <select name="nivel_escolar">
+                            <select name="nivel_escolar" id="nivel_escolar">
                                 <option value="none">Nivel Escolar</option>
                                 <option value="Básico">Básico</option>
                                 <option value="Medio">Medio</option>
@@ -52,7 +52,7 @@
                             </select>
                         </div>
                     </div>
-                    <input type="submit" value="ENVIAR" class="button primary" style="margin-top: 5%;">
+                    <button id="enviarBtn" class="button primary" style="margin-top: 5%;">ENVIAR</button>
                 </form>
             </div>
         </div>
@@ -77,12 +77,12 @@
 
 <!-- Scripts -->
 
-<script src="/js/jquery.min.js"></script>
-<script src="/js/jquery.dropotron.min.js"></script>
-<script src="/js/browser.min.js"></script>
-<script src="/js/breakpoints.min.js"></script>
-<script src="/js/util.js"></script>
-<script src="/js/main.js"></script>
+<script src="public/js/jquery.min.js"></script>
+<script src="public/js/jquery.dropotron.min.js"></script>
+<script src="public/js/browser.min.js"></script>
+<script src="public/js/breakpoints.min.js"></script>
+<script src="public/js/util.js"></script>
+<script src="public/js/main.js"></script>
 <script>
     $(document).ready (function () {
         $.get("https://api.ipify.org?format=json",
@@ -90,7 +90,28 @@
                 console.log(data)
                 $("#ip").val(data.ip);
             });
+        $("#enviarBtn").click(function(){
+            $.post( "/encuesta", {nombre: $('#nombre').val(), sector: $('#sector').val(), nivel_escolar: $("#nivel_escolar").val(), ip: $("#ip").val()}, function() {
+                alert( "success" );
+            })
+                .done(function() {
+                    alert( "second success" );
+                })
+                .fail(function() {
+                    alert( "error" );
+                })
+                .always(function() {
+                    alert( "finished" );
+                });
+        });
     });
+</script>
+<script>
+    if('serviceWorker' in navigator) {
+        navigator.serviceWorker
+            .register('sw.js')
+            .then(function() { console.log("Service Worker Registered"); });
+    }
 </script>
 </body>
 </html>

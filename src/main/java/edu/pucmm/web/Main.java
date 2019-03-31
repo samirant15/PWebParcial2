@@ -1,7 +1,5 @@
 package edu.pucmm.web;
 
-import com.maxmind.geoip2.DatabaseReader;
-import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.record.Location;
 import edu.pucmm.web.Servicios.LocationServicio;
 import edu.pucmm.web.Servicios.UsuarioServicio;
@@ -10,8 +8,6 @@ import edu.pucmm.web.modelos.Usuario;
 import spark.ModelAndView;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
-import java.io.File;
-import java.io.IOException;
 import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +23,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        staticFiles.location("/public");
+        staticFiles.location("/templates");
 
         if(UsuarioServicio.getInstancia().find("samirant15") == null){
             Usuario user = new Usuario();
@@ -56,8 +52,8 @@ public class Main {
             Location location = LocationServicio.getInstancia().locationReader.city(ipAddress).getLocation();
             form.setLatitud(location.getLatitude());
             form.setLongitud(location.getLongitude());
-
-            response.redirect("/");
+            response.status(200);
+//            response.redirect("/");
             return "";
         });
     }
