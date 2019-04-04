@@ -10,7 +10,7 @@ public class LocationServicio {
 
     private LocationServicio() {
 
-        File database = new File("src/main/resources/Location/GeoLite2-City.mmdb");
+        File database = new File("src"+File.separator+"main"+File.separator+"resources"+File.separator+"Location"+File.separator+"GeoLite2-City.mmdb");
         try {locationReader = new DatabaseReader.Builder(database).build();}
         catch (Exception e) {System.out.println(e);}
     }
