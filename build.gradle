@@ -1,13 +1,22 @@
 group 'edu.pucmm.do'
 version '1.0-SNAPSHOT'
 
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:5.0.0'
+    }
+}
+
 apply plugin: 'java'
 apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 sourceCompatibility = 1.8
 mainClassName = 'edu.pucmm.web.Main'
-version = '1.0'
 
 repositories {
     mavenCentral()
@@ -23,4 +32,8 @@ dependencies {
     compile group: 'org.jasypt', name: 'jasypt', version: '1.9.2'
     compile 'com.google.code.gson:gson:2.6.2'
     compile group: 'com.maxmind.geoip2', name: 'geoip2', version: '2.12.0'
+}
+
+shadowJar {
+    version = 0.1
 }

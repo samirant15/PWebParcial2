@@ -22,6 +22,11 @@ public class Main {
     }
 
     public static void main(String[] args) {
+
+        if(args.length > 0) {
+            port(Integer.parseInt(args[0]));
+        }
+
         staticFiles.location("/templates");
         JsonTransformer jsonTransformer = new JsonTransformer();
 
