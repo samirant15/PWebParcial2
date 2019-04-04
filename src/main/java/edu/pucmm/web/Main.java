@@ -59,6 +59,13 @@ public class Main {
             return FormularioServicio.getInstancia().findAll();
         }, jsonTransformer);
 
+        get("/delete/:id", (request, response) -> {
+            Formulario form = FormularioServicio.getInstancia().find(request.params("id"));
+            FormularioServicio.getInstancia().eliminar(form);
+            response.redirect("/");
+            return "";
+        });
+
         get("/ver", (request, response) -> {
             modelo.put("encuestas", FormularioServicio.getInstancia().findAll());
             return renderThymeleaf(modelo, "/ver");
