@@ -1,6 +1,7 @@
 package edu.pucmm.web;
 
 import com.maxmind.geoip2.record.Location;
+import edu.pucmm.web.Servicios.FormularioServicio;
 import edu.pucmm.web.Servicios.LocationServicio;
 import edu.pucmm.web.Servicios.UsuarioServicio;
 import edu.pucmm.web.modelos.Formulario;
@@ -24,6 +25,7 @@ public class Main {
 
     public static void main(String[] args) {
         staticFiles.location("/templates");
+        JsonTransformer jsonTransformer = new JsonTransformer();
 
         if(UsuarioServicio.getInstancia().find("samirant15") == null){
             Usuario user = new Usuario();
@@ -52,13 +54,18 @@ public class Main {
             Location location = LocationServicio.getInstancia().locationReader.city(ipAddress).getLocation();
             form.setLatitud(location.getLatitude());
             form.setLongitud(location.getLongitude());
+            FormularioServicio.getInstancia().crear(form);
             response.redirect("/");
             return "";
         });
 
-        get("/eliminar/:id", (request, response) -> {
-            response.redirect("/");
-            return "";
+        get("/encuestas", (request, response) -> {
+            return FormularioServicio.getInstancia().findAll();
+        }, jsonTransformer);
+
+        get("/ver", (request, response) -> {
+            modelo.put("encuestas", FormularioServicio.getInstancia().findAll());
+            return renderThymeleaf(modelo, "/ver");
         });
     }
 }

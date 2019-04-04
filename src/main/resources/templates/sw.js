@@ -77,7 +77,7 @@ self.addEventListener('install', function(e) {
                 '/',
                 '/encuesta',
                 '/index.html',
-                '/login.html',
+                '/ver.html',
                 '/encuesta.html',
                 '/public/css/main.css',
                 '/public/js/jquery.min.js',

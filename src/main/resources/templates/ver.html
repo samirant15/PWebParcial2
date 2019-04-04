@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Parcial 2</title>
+    <link rel="stylesheet" href="public/css/main.css" />
+    <link rel="stylesheet" href="public/css/all.css" />
+    <style>
+        #map_wrapper {
+            height: 400px;
+        }
+
+        #map_canvas {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body class="is-preload homepage">
+<div id="page-wrapper">
+
+    <!-- Header -->
+    <div id="header-wrapper">
+        <header id="header" class="container">
+
+            <!-- Logo -->
+            <div id="logo">
+                <h1><a href="index.html">Parcial 2</a></h1>
+                <span>por Samir Comprés</span>
+            </div>
+            <!-- Nav -->
+            <nav id="nav">
+                <ul>
+                    <li class="current"><a href="/">INICIO</a></li>
+                </ul>
+            </nav>
+
+        </header>
+    </div>
+    <!-- Banner -->
+    <div id="banner-wrapper">
+        <div id="banner" class="box container" style="padding: 0px">
+            <div class="span-3">
+                <h2 style="margin: 15px;">ENVIOS</h2>
+                <div class="table-wrapper">
+                    <table class="alt">
+                        <thead>
+                        <tr>
+                            <th>NOMBRE</th>
+                            <th>SECTOR</th>
+                            <th>NIVEL ESCOLAR</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="encuesta : ${encuestas}">
+                            <td th:text="${encuesta.nombre}">NOMBRE</td>
+                            <td th:text="${encuesta.sector}">SECTOR</td>
+                            <td th:text="${encuesta.nivel_escolar}">NIVEL_ESCOLAR</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box container" style="padding: 0px">
+        <div id="map_wrapper" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+            <div id="map_canvas" class="mapping"></div>
+        </div>
+    </div>
+    <!-- Footer -->
+    <div id="footer-wrapper">
+        <footer id="footer" class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div id="copyright">
+                        <ul class="menu">
+                            <li>&copy; Parcial 2. Programación Web</li><li><a href="https://github.com/samirant15/PWebParcial2">Samir Comprés</a> 2015-0798</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+</div>
+
+<!-- Scripts -->
+
+<script src="public/js/jquery.min.js"></script>
+<script src="public/js/jquery.dropotron.min.js"></script>
+<script src="public/js/browser.min.js"></script>
+<script src="public/js/breakpoints.min.js"></script>
+<script src="public/js/util.js"></script>
+<script src="public/js/main.js"></script>
+<script>
+    if('serviceWorker' in navigator) {
+        navigator.serviceWorker
+            .register('sw.js')
+            .then(function() { console.log("Service Worker Registered"); });
+    }
+</script>
+<script>
+    jQuery(function($) {
+        // Asynchronously Load the map API
+        var script = document.createElement('script');
+        script.src = "//maps.googleapis.com/maps/api/js?sensor=false&callback=initialize";
+        document.body.appendChild(script);
+    });
+
+    async function initialize() {
+        await $.get("/encuestas", function(data){
+            data = JSON.parse(data)
+            markers = data.map(e => {return {titulo: `${e.nombre}`, descripcion: `Nombre: ${e.nombre} - Sector: ${e.sector} - Nivel Escolar: ${e.nivel_escolar}`, lon: e.longitud, lat: e.latitud}})
+            console.log(markers)
+        });
+
+        var map;
+        var bounds = new google.maps.LatLngBounds();
+        var mapOptions = {
+            mapTypeId: 'roadmap'
+        };
+
+        // Display a map on the page
+        map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+        map.setTilt(45);
+
+
+        // Display multiple markers on a map
+        var infoWindow = new google.maps.InfoWindow(), marker, i;
+
+        // Loop through our array of markers & place each one on the map
+        for( i = 0; i < markers.length; i++ ) {
+            var position = new google.maps.LatLng(markers[i].lat, markers[i].lon);
+            bounds.extend(position);
+            marker = new google.maps.Marker({
+                position: position,
+                map: map,
+                title: markers[i].titulo
+            });
+
+            // Allow each marker to have an info window
+            google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                return function() {
+                    infoWindow.setContent(markers[i].descripcion);
+                    infoWindow.open(map, marker);
+                }
+            })(marker, i));
+
+            // Automatically center the map fitting all markers on the screen
+            map.fitBounds(bounds);
+        }
+
+        // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
+        var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function(event) {
+            this.setZoom(14);
+            google.maps.event.removeListener(boundsListener);
+        });
+
+    }
+</script>
+</body>
+</html>

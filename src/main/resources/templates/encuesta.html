@@ -20,7 +20,7 @@
             <!-- Nav -->
             <nav id="nav">
                 <ul>
-                    <li class="current"><a href="index.html">LOG IN</a></li>
+                    <li class="current"><a href="/">INICIO</a></li>
                 </ul>
             </nav>
 
@@ -97,7 +97,10 @@
 
                 })
                 .done(function() {
-                    alert( "Encuesta subida al servidor!" );
+                    if (window.confirm('Gracias por llenar su encuesta!\nDesea ver las encuestas subidas?'))
+                        window.location = '/ver';
+                    else
+                        window.location = '/';
                 })
                 .fail(function() {
                     alert( "Error de conexión, la encuesta se guardará local" );
@@ -105,7 +108,8 @@
             }else{
                 let params = {nombre: $('#nombre').val(), sector: $('#sector').val(), nivel_escolar: $("#nivel_escolar").val(), ip: $("#ip").val()}
                 navigator.serviceWorker.controller.postMessage(params);
-                window.location.replace("/")
+                alert( "Error de conexión, la encuesta se guardará local" );
+                window.location = '/';
             }
         });
     });
