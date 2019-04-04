@@ -114,28 +114,15 @@ self.addEventListener('message', function (event) {
 })
 
 self.addEventListener('fetch', function(event) {
-    let params = null
-    if(event.request.url.includes("encuesta?")){
-        console.log(event.request);
-        params = getParams(event.request.url)
-        // console.log(params)
-    }
     event.respondWith(
-        fetch(event.request).then(response => {
-            return response
-        }) //Trata de cargar online
-            .catch(() => caches.match(event.request) //No? busca en cache
-                .then(function(response) {
-                    if(params != null){
-                        // console.log(params)
-                        // var encuestasStore = db.transaction("encuestas", "readwrite").objectStore("encuestas");
-                        // encuestasStore.add(params);
-                        // db.insertEncuesta(dataStore, params, encuesta => refrescarEncuestas)
-                        // window.location.replace("/");
-                        // return caches.match('/')
-                    } else return response
-                }).catch(response => {return response})
-            )
+        caches.match(event.request) //To match current request with cached request it
+            .then(function(response) {
+                //If response found return it, else fetch again.
+                return response || fetch(event.request);
+            })
+            .catch(function(error) {
+                console.error("Error: ", error);
+            })
     );
 });
 //
