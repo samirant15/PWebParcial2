@@ -74,8 +74,6 @@ self.addEventListener('install', function(e) {
     e.waitUntil(
         caches.open('pweb-v1').then(function(cache) {
             return cache.addAll([
-                '/',
-                '/encuesta',
                 '/index.html',
                 '/ver.html',
                 '/encuesta.html',
