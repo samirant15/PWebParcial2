@@ -85,9 +85,7 @@
 <script src="public/js/main.js"></script>
 <script>
     $(document).ready (function () {
-        if (location.protocol !== "https:") {
-            location.protocol = "https:";
-        }
+
         $.get("https://api.ipify.org?format=json",
             function (data) {
                 console.log(data)
@@ -105,7 +103,8 @@
                     else
                         window.location = '/';
                 })
-                .fail(function() {
+                .fail(function(err) {
+                    console.log(err)
                     alert( "Error de conexión, la encuesta se guardará local" );
                 })
             }else{
