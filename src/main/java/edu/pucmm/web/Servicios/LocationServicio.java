@@ -1,7 +1,6 @@
 package edu.pucmm.web.Servicios;
 
 import com.maxmind.geoip2.DatabaseReader;
-import edu.pucmm.web.modelos.Usuario;
 
 import java.io.File;
 

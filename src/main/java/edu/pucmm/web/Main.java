@@ -3,9 +3,7 @@ package edu.pucmm.web;
 import com.maxmind.geoip2.record.Location;
 import edu.pucmm.web.Servicios.FormularioServicio;
 import edu.pucmm.web.Servicios.LocationServicio;
-import edu.pucmm.web.Servicios.UsuarioServicio;
 import edu.pucmm.web.modelos.Formulario;
-import edu.pucmm.web.modelos.Usuario;
 import spark.ModelAndView;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
@@ -27,13 +25,6 @@ public class Main {
         staticFiles.location("/templates");
         JsonTransformer jsonTransformer = new JsonTransformer();
 
-        if(UsuarioServicio.getInstancia().find("samirant15") == null){
-            Usuario user = new Usuario();
-            user.setNombre("Samir Comprés");
-            user.setUsuario("samirant15");
-            user.setContrasena("123123");
-            UsuarioServicio.getInstancia().crear(user);
-        }
 
         get("/", (request, response) -> {
             return renderThymeleaf(modelo, "/index");
