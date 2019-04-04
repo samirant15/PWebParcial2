@@ -44,6 +44,7 @@ public class Main {
 //            response.redirect("encuesta.html"); return null;
             Formulario form = new Formulario();
             form.setNombre(request.queryParams("nombre"));
+            System.out.println("Registrando el registro a nombre de :" + request.queryParams("nombre"));
             form.setSector(request.queryParams("sector"));
             form.setNivel_escolar(request.queryParams("nivel_escolar"));
             InetAddress ipAddress = InetAddress.getByName(request.queryParams("ip"));
