@@ -52,8 +52,6 @@ public class Main {
             form.setLatitud(location.getLatitude());
             form.setLongitud(location.getLongitude());
             FormularioServicio.getInstancia().crear(form);
-
-            response.redirect("/");
             return "";
         });
 
