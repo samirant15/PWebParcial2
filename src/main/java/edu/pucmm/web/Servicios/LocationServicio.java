@@ -4,8 +4,6 @@ import com.maxmind.geoip2.DatabaseReader;
 
 import java.io.File;
 
-import static jdk.jfr.internal.SecuritySupport.getResourceAsStream;
-
 public class LocationServicio {
     private static LocationServicio instancia;
     public static DatabaseReader locationReader;
