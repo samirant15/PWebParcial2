@@ -52,8 +52,12 @@ public class Main {
             Location location = LocationServicio.getInstancia().locationReader.city(ipAddress).getLocation();
             form.setLatitud(location.getLatitude());
             form.setLongitud(location.getLongitude());
-            response.status(200);
-//            response.redirect("/");
+            response.redirect("/");
+            return "";
+        });
+
+        get("/eliminar/:id", (request, response) -> {
+            response.redirect("/");
             return "";
         });
     }

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Parcial 2</title>
     <link rel="stylesheet" href="public/css/main.css" />
+    <link rel="stylesheet" href="public/css/all.css" />
 </head>
 <body class="is-preload homepage">
 <div id="page-wrapper">
@@ -27,10 +28,10 @@
 
         </header>
     </div>
-
     <!-- Banner -->
     <div id="banner-wrapper">
         <div id="banner" class="box container">
+            <h3 id="status" style="width: fit-content;color: white;background-color: green;border-radius: 10px;padding: 5px;"></h3>
             <div class="row">
                 <div class="col-7 col-12-medium">
                     <h2>Encuestas Sociales</h2>
@@ -45,6 +46,8 @@
             </div>
         </div>
     </div>
+
+    <div id="pendientes" style="color: red;"></div>
 
     <!-- Footer -->
     <div id="footer-wrapper">
@@ -71,6 +74,7 @@
 <script src="public/js/breakpoints.min.js"></script>
 <script src="public/js/util.js"></script>
 <script src="public/js/main.js"></script>
+<script src="sw.js"></script>
 <script>
     if('serviceWorker' in navigator) {
         navigator.serviceWorker

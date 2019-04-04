@@ -43,7 +43,7 @@
                         </div>
                         <div class="field half" style="margin-bottom: 1%">
                             <select name="nivel_escolar" id="nivel_escolar">
-                                <option value="none">Nivel Escolar</option>
+                                <option value="none" selected disabled hidden>Nivel Escolar</option>
                                 <option value="Básico">Básico</option>
                                 <option value="Medio">Medio</option>
                                 <option value="Universitario">Grado Universitario</option>
@@ -52,8 +52,8 @@
                             </select>
                         </div>
                     </div>
-                    <button id="enviarBtn" class="button primary" style="margin-top: 5%;">ENVIAR</button>
                 </form>
+                <button id="enviarBtn" class="button primary" style="margin-top: 5%;">ENVIAR</button>
             </div>
         </div>
     </div>
@@ -91,18 +91,22 @@
                 $("#ip").val(data.ip);
             });
         $("#enviarBtn").click(function(){
-            $.post( "/encuesta", {nombre: $('#nombre').val(), sector: $('#sector').val(), nivel_escolar: $("#nivel_escolar").val(), ip: $("#ip").val()}, function() {
-                alert( "success" );
-            })
+            if(navigator.onLine == true){
+                let ip = $("#ip").val() == "" ? " " : $("#ip").val()
+                $.post( "/encuesta", {nombre: $('#nombre').val(), sector: $('#sector').val(), nivel_escolar: $("#nivel_escolar").val(), ip: ip}, function() {
+
+                })
                 .done(function() {
-                    alert( "second success" );
+                    alert( "Encuesta subida al servidor!" );
                 })
                 .fail(function() {
-                    alert( "error" );
+                    alert( "Error de conexión, la encuesta se guardará local" );
                 })
-                .always(function() {
-                    alert( "finished" );
-                });
+            }else{
+                let params = {nombre: $('#nombre').val(), sector: $('#sector').val(), nivel_escolar: $("#nivel_escolar").val(), ip: $("#ip").val()}
+                navigator.serviceWorker.controller.postMessage(params);
+                window.location.replace("/")
+            }
         });
     });
 </script>
