@@ -52,6 +52,7 @@ public class Main {
             form.setLatitud(location.getLatitude());
             form.setLongitud(location.getLongitude());
             FormularioServicio.getInstancia().crear(form);
+
             response.redirect("/");
             return "";
         });
@@ -63,6 +64,11 @@ public class Main {
         get("/ver", (request, response) -> {
             modelo.put("encuestas", FormularioServicio.getInstancia().findAll());
             return renderThymeleaf(modelo, "/ver");
+        });
+
+        after((request, response) -> {
+            response.header("Access-Control-Allow-Origin", "*");
+            response.header("Access-Control-Allow-Methods", "GET");
         });
     }
 }
