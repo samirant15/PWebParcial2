@@ -63,10 +63,5 @@ public class Main {
             modelo.put("encuestas", FormularioServicio.getInstancia().findAll());
             return renderThymeleaf(modelo, "/ver");
         });
-
-        after((request, response) -> {
-            response.header("Access-Control-Allow-Origin", "*");
-            response.header("Access-Control-Allow-Methods", "GET");
-        });
     }
 }
